@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Alarme_Inteligente</string>
+    <string name="desativar_por_voz">desativar por voz</string>
+    <string name="desativar_por_movimento">desativar por movimento</string>
+</resources>

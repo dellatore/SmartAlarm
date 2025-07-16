@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "161533928845",
+    "project_id": "alarmeinteligente",
+    "storage_bucket": "alarmeinteligente.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:161533928845:android:2e39ac32b7f03a2c7649c4",
+        "android_client_info": {
+          "package_name": "com.example.alarme_inteligente"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHbioSIzXeMDiViWLpL17c-ruDSdGxEys"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
