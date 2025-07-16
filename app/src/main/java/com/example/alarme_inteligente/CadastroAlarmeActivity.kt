@@ -110,6 +110,7 @@ class CadastroAlarmeActivity : AppCompatActivity() {
 
     }
 
+
     private fun agendarDisparo(dataMillis: Long, desativarPorMovimento: Boolean) {
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
 

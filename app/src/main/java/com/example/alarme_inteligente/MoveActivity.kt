@@ -28,9 +28,7 @@ class MoveActivity : AppCompatActivity(),
         acelerometroHelper = AcelerometroHelper(this, this)
         reconhecimentoHelper = ReconhecimentoHelper(this, this)
 
-        // Toca som
-        mediaPlayer = MediaPlayer.create(this, R.raw.som_alarme)
-        mediaPlayer?.start()
+
 
         // Inicia reconhecimento de voz
         solicitarPermissaoMicrofone()

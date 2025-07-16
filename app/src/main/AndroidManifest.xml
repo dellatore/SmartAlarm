@@ -29,6 +29,10 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".MoveActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+
+        </activity>
+
         <!-- Activity de cadastro de alarme -->
         <activity
             android:name=".CadastroAlarmeActivity"
@@ -36,6 +40,8 @@
 
         <!-- Receiver do alarme -->
         <receiver android:name=".receiver.AlarmReceiver" />
+
+
 
     </application>
 

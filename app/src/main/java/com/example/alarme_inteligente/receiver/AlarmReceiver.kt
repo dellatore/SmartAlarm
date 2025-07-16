@@ -15,7 +15,7 @@ class AlarmReceiver : BroadcastReceiver() {
 
         if (movimento) {
             val i = Intent(context, MoveActivity::class.java)
-            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
             context.startActivity(i)
         } else {
             // aqui você pode abrir outra tela ou tocar um som diretamente
