@@ -3,6 +3,7 @@
     android:id="@+id/rootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/tela_menu"
     android:padding="24dp">
 
     <TextView
@@ -37,7 +38,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerAlarms"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_below="@id/btnAddAlarm"
         android:layout_marginTop="16dp"

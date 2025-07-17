@@ -5,6 +5,7 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
+import kotlin.math.sqrt
 
 class AcelerometroHelper(
     private val context: Context,
@@ -12,10 +13,10 @@ class AcelerometroHelper(
 ) : SensorEventListener {
 
     private val sensorManager = context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
-    private val sensor: Sensor? = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
+    private val acelerometro = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
 
     fun iniciar() {
-        sensor?.let {
+        acelerometro?.let {
             sensorManager.registerListener(this, it, SensorManager.SENSOR_DELAY_NORMAL)
         }
     }
@@ -29,9 +30,10 @@ class AcelerometroHelper(
             val x = it.values[0]
             val y = it.values[1]
             val z = it.values[2]
-            val magnitude = Math.sqrt((x * x + y * y + z * z).toDouble())
-            if (magnitude > 15) { // Ajustável conforme sensibilidade
-                callback.onMovimentoDetectado()
+            val aceleracao = sqrt(x * x + y * y + z * z)
+
+            if (aceleracao > 15f) {
+                callback.onChacoalhado()
             }
         }
     }
@@ -39,6 +41,6 @@ class AcelerometroHelper(
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
 
     interface Callback {
-        fun onMovimentoDetectado()
+        fun onChacoalhado()
     }
 }

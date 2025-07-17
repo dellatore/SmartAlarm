@@ -21,7 +21,6 @@ class CadastroAlarmeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityNewAlarmBinding
     private val db = FirebaseFirestore.getInstance()
 
-    // Calendário para armazenar data/hora selecionados
     private val calendar = Calendar.getInstance()
 
     private val sdfDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
@@ -37,7 +36,6 @@ class CadastroAlarmeActivity : AppCompatActivity() {
 
         atualizarDataHoraViews()
 
-        // Botão data
         binding.tvDataSelecionada.setOnClickListener {
             val dp = DatePickerDialog(this, { _, y, m, d ->
                 calendar.set(Calendar.YEAR, y)
@@ -48,7 +46,6 @@ class CadastroAlarmeActivity : AppCompatActivity() {
             dp.show()
         }
 
-        // Botão hora
         binding.tvHoraSelecionada.setOnClickListener {
             val tp = TimePickerDialog(this, { _, h, m ->
                 calendar.set(Calendar.HOUR_OF_DAY, h)
@@ -63,16 +60,20 @@ class CadastroAlarmeActivity : AppCompatActivity() {
         }
 
         binding.btnToggleVoz.setOnClickListener {
-            desativarPorVoz = !desativarPorVoz
+            desativarPorVoz = true
+            desativarPorMovimento = false
             atualizarBotaoVoz()
-        }
-
-        binding.btnToggleMovimento.setOnClickListener {
-            desativarPorMovimento = !desativarPorMovimento
             atualizarBotaoMovimento()
         }
 
-// Chame uma vez após inflar o layout para estado inicial
+        binding.btnToggleMovimento.setOnClickListener {
+            desativarPorMovimento = true
+            desativarPorVoz = false
+            atualizarBotaoMovimento()
+            atualizarBotaoVoz()
+        }
+
+
         atualizarBotaoVoz()
         atualizarBotaoMovimento()
 
@@ -92,10 +93,20 @@ class CadastroAlarmeActivity : AppCompatActivity() {
             return
         }
 
+        val tipo = when {
+            desativarPorMovimento -> "movimento"
+            desativarPorVoz -> "voz"
+            else -> null
+        }
+
+        if (tipo == null) {
+            Toast.makeText(this, "Selecione pelo menos uma forma de desativação", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         val alarme = hashMapOf(
             "data" to Timestamp(dataSelecionada),
-            "desativarPorVoz" to desativarPorVoz,
-            "desativarPorMovimento" to desativarPorMovimento,
+            "tipo" to tipo,
             "criadoEm" to Timestamp.now()
         )
 
@@ -103,18 +114,16 @@ class CadastroAlarmeActivity : AppCompatActivity() {
             .add(alarme)
             .addOnSuccessListener {
                 Toast.makeText(this, "Alarme salvo com sucesso!", Toast.LENGTH_SHORT).show()
-                agendarDisparo(dataSelecionada.time, desativarPorMovimento)
+                agendarDisparo(dataSelecionada.time, tipo)
                 finish()
             }
-
-
     }
 
 
-    private fun agendarDisparo(dataMillis: Long, desativarPorMovimento: Boolean) {
+
+    private fun agendarDisparo(dataMillis: Long, tipo: String) {
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
-        // Verifica se pode agendar alarmes exatos (Android 12+)
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
             if (!alarmManager.canScheduleExactAlarms()) {
                 Toast.makeText(this, "Permissão necessária para alarmes exatos", Toast.LENGTH_LONG).show()
@@ -125,12 +134,12 @@ class CadastroAlarmeActivity : AppCompatActivity() {
         }
 
         val intent = Intent(this, com.example.alarme_inteligente.receiver.AlarmReceiver::class.java).apply {
-            putExtra("movimento", desativarPorMovimento)
+            putExtra("tipo", tipo)
         }
 
         val pendingIntent = PendingIntent.getBroadcast(
             this,
-            dataMillis.toInt(), // ID único por horário
+            dataMillis.toInt(),
             intent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
         )
@@ -146,6 +155,7 @@ class CadastroAlarmeActivity : AppCompatActivity() {
             Toast.makeText(this, "Erro ao agendar alarme. Verifique as permissões.", Toast.LENGTH_SHORT).show()
         }
     }
+
 
 
     private fun atualizarBotaoVoz() {

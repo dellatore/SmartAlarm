@@ -29,13 +29,17 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".MoveActivity" android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-
-        </activity>
-
         <!-- Activity de cadastro de alarme -->
         <activity
             android:name=".CadastroAlarmeActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <activity
+            android:name=".AlarmeMovimentoActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <activity
+            android:name=".AlarmeVozActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <!-- Receiver do alarme -->
