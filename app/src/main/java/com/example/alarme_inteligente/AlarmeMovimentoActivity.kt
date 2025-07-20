@@ -1,9 +1,9 @@
 package com.example.alarme_inteligente
 
-import android.media.MediaPlayer
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.alarme_inteligente.helper.AcelerometroHelper
+import com.example.alarme_inteligente.model.SomPlayer
 
 class AlarmeMovimentoActivity : AppCompatActivity(), AcelerometroHelper.Callback {
 
@@ -36,13 +36,13 @@ class AlarmeMovimentoActivity : AppCompatActivity(), AcelerometroHelper.Callback
     }
 
     private fun pararAlarme() {
-//        player.stop()
+        SomPlayer.pararSom()
         helper.parar()
         finish()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-//        player.release()
+        SomPlayer.pararSom()
     }
 }
